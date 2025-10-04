@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gallery | Jessica Koury Marshall</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #f5e6d3 0%, #e8d5c4 100%);
+            color: #4a4a4a;
+            line-height: 1.6;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                radial-gradient(circle at 20% 30%, rgba(255, 255, 255, 0.3) 0%, transparent 50%),
+                radial-gradient(circle at 80% 70%, rgba(245, 230, 211, 0.4) 0%, transparent 50%),
+                radial-gradient(circle at 40% 80%, rgba(232, 213, 196, 0.3) 0%, transparent 50%);
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        nav {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 1rem 2rem;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            backdrop-filter: blur(10px);
+        }
+
+        nav .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        nav .logo {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #6b8e7f;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        nav .logo:hover {
+            color: #4a6b5e;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: 2rem;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: #4a4a4a;
+            font-weight: 500;
+            transition: color 0.3s ease;
+            position: relative;
+        }
+
+        nav a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: #a8c5b8;
+            transition: width 0.3s ease;
+        }
+
+        nav a:hover::after,
+        nav a.active::after {
+            width: 100%;
+        }
+
+        nav a:hover,
+        nav a.active {
+            color: #6b8e7f;
+        }
+
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+            gap: 4px;
+        }
+
+        .hamburger span {
+            width: 25px;
+            height: 3px;
+            background: #4a4a4a;
+            transition: all 0.3s ease;
+        }
+
+        main {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+            min-height: calc(100vh - 200px);
+        }
+
+        .page-header {
+            text-align: center;
+            margin: 3rem 0 2rem;
+        }
+
+        .page-header h1 {
+            color: #4a6b5e;
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .page-header p {
+            color: #6a6a6a;
+            font-size: 1.1rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin: 3rem 0;
+        }
+
+        .gallery-item {
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            animation: fadeInUp 0.6s ease-out;
+            animation-fill-mode: both;
+        }
+
+        .gallery-item:nth-child(1) { animation-delay: 0.1s; }
+        .gallery-item:nth-child(2) { animation-delay: 0.2s; }
+        .gallery-item:nth-child(3) { animation-delay: 0.3s; }
+        .gallery-item:nth-child(4) { animation-delay: 0.4s; }
+        .gallery-item:nth-child(5) { animation-delay: 0.5s; }
+        .gallery-item:nth-child(6) { animation-delay: 0.6s; }
+        .gallery-item:nth-child(7) { animation-delay: 0.7s; }
+        .gallery-item:nth-child(8) { animation-delay: 0.8s; }
+
+        .gallery-item:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .protected-image {
+            position: relative;
+        }
+
+        .protected-image::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: transparent;
+            z-index: 1;
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+            display: block;
+            user-select: none;
+            -webkit-user-drag: none;
+            pointer-events: none;
+        }
+
+        .gallery-item .item-info {
+            padding: 1.5rem;
+        }
+
+        .gallery-item h3 {
+            color: #4a6b5e;
+            margin-bottom: 0.5rem;
+        }
+
+        .gallery-item p {
+            color: #6a6a6a;
+            font-size: 0.95rem;
+        }
+
+        footer {
+            background: rgba(255, 255, 255, 0.9);
+            padding: 2rem;
+            text-align: center;
+            margin-top: 4rem;
+            color: #6a6a6a;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @media (max-width: 768px) {
+            nav ul {
+                position: fixed;
+                left: -100%;
+                top: 70px;
+                flex-direction: column;
+                background: rgba(255, 255, 255, 0.98);
+                width: 100%;
+                text-align: center;
+                transition: 0.3s;
+                box-shadow: 0 10px 27px rgba(0, 0, 0, 0.1);
+                padding: 2rem 0;
+            }
+
+            nav ul.active {
+                left: 0;
+            }
+
+            .hamburger {
+                display: flex;
+            }
+
+            .gallery-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="container">
+            <a href="index.html" class="logo">Jessica Koury Marshall</a>
+            <div class="hamburger" onclick="toggleMenu()">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+            <ul id="nav-menu">
+                <li><a href="index.html" class="nav-link">Home</a></li>
+                <li><a href="about.html" class="nav-link">About</a></li>
+                <li><a href="gallery.html" class="nav-link active">Gallery</a></li>
+                <li><a href="books.html" class="nav-link">Books</a></li>
+                <li><a href="blog.html" class="nav-link">Blog</a></li>
+                <li><a href="shop.html" class="nav-link">Shop</a></li>
+                <li><a href="contact.html" class="nav-link">Contact</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main>
+        <div class="page-header">
+            <h1>Art Gallery</h1>
+            <p>A collection of nature photography, abstract acrylics, and whimsical watercolors inspired by the natural world</p>
+        </div>
+
+        <div class="gallery-grid">
+            <!-- Replace placeholder images with your actual artwork -->
+            <div class="gallery-item">
+                <div class="protected-image">
+                    <img src="https://via.placeholder.com/400x300/a8c5b8/ffffff?text=Nature+Photography+1" alt="Nature Photography 1" oncontextmenu="return false;">
+                </div>
+                <div class="item-info">
+                    <h3>Woodland Wonder</h3>
+                    <p>Nature Photography</p>
+                </div>
+            </div>
+
+            <div class="gallery-item">
+                <div class="protected-image">
+                    <img src="https://via.placeholder.com/400x300/b8d4c8/ffffff?text=Abstract+Acrylic+1" alt="Abstract Acrylic 1" oncontextmenu="return false;">
+                </div>
+                <div class="item-info">
+                    <h3>Abstract Dreams</h3>
+                    <p>Acrylic Painting</p>
+                </div>
+            </div>
+
+            <div class="gallery-item">
+                <div class="protected-image">
+                    <img src="https://via.placeholder.com/400x300/c8e4d8/ffffff?text=Watercolor+Animal+1" alt="Watercolor Animal 1" oncontextmenu="return false;">
+                </div>
+                <div class="item-info">
+                    <h3>Whimsical Creature</h3>
+                    <p>Watercolor</p>
+                </div>
+            </div>
+
+            <div class="gallery-item">
+                <div class="protected-image">
+                    <img src="https://via.placeholder.com/400x300/a8c5b8/ffffff?text=Nature+Scene+1" alt="Nature Scene 1" oncontextmenu="return false;">
+                </div>
+                <div class="item-info">
+                    <h3>Forest Fantasy</h3>
+                    <p>Watercolor</p>
+                </div>
+            </div>
+
+            <div class="gallery-item">
+                <div class="protected-image">
+                    <img src="https://via.placeholder.com/400x300/b8d4c8/ffffff?text=Photography+2" alt="Photography 2" oncontextmenu="return false;">
+                </div>
+                <div class="item-info">
+                    <h3>Creek Reflections</h3>
+                    <p>Nature Photography</p>
+                </div>
+            </div>
+
+            <div class="gallery-item">
+                <div class="protected-image">
+                    <img src="https://via.placeholder.com/400x300/c8e4d8/ffffff?text=Abstract+2" alt="Abstract 2" oncontextmenu="return false;">
+                </div>
+                <div class="item-info">
+                    <h3>Nature's Palette</h3>
+                    <p>Acrylic Painting</p>
+                </div>
+            </div>
+
+            <div class="gallery-item">
+                <div class="protected-image">
+                    <img src="https://via.placeholder.com/400x300/a8c5b8/ffffff?text=Watercolor+2" alt="Watercolor 2" oncontextmenu="return false;">
+                </div>
+                <div class="item-info">
+                    <h3>Sunset Serenade</h3>
+                    <p>Watercolor</p>
+                </div>
+            </div>
+
+            <div class="gallery-item">
+                <div class="protected-image">
+                    <img src="https://via.placeholder.com/400x300/b8d4c8/ffffff?text=Fantasy+Scene" alt="Fantasy Scene" oncontextmenu="return false;">
+                </div>
+                <div class="item-info">
+                    <h3>Enchanted Garden</h3>
+                    <p>Watercolor</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 Jessica Koury Marshall. All rights reserved.</p>
+    </footer>
+
+    <script>
+        function toggleMenu() {
+            const menu = document.getElementById('nav-menu');
+            menu.classList.toggle('active');
+        }
+
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.addEventListener('click', () => {
+                document.getElementById('nav-menu').classList.remove('active');
+            });
+        });
+
+        document.addEventListener('contextmenu', (e) => {
+            if (e.target.tagName === 'IMG') {
+                e.preventDefault();
+                return false;
+            }
+        });
+
+        document.querySelectorAll('img').forEach(img => {
+            img.addEventListener('dragstart', (e) => {
+                e.preventDefault();
+                return false;
+            });
+        });
+    </script>
+</body>
+</html>
