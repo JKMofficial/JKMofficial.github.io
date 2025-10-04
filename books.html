@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <nav>
+        <div class="container">
+            <a href="index.html" class="logo">Jessica Koury Marshall</a>
+            <div class="hamburger" onclick="toggleMenu()">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+            <ul id="nav-menu">
+                <li><a href="index.html" class="nav-link">Home</a></li>
+                <li><a href="about.html" class="nav-link">About</a></li>
+                <li><a href="gallery.html" class="nav-link">Gallery</a></li>
+                <li><a href="books.html" class="nav-link active">Books</a></li>
+                <li><a href="blog.html" class="nav-link">Blog</a></li>
+                <li><a href="shop.html" class="nav-link">Shop</a></li>
+                <li><a href="contact.html" class="nav-link">Contact</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main>
+        <section class="page-section">
+            <h1>Books & Writing</h1>
+            <p class="page-intro">I create stories that celebrate nature, spark imagination, and inspire cozy adventures for readers of all ages.</p>
+            
+            <div class="book-item">
+                <h3>Children's Books</h3>
+                <p><strong>Focus:</strong> Beautifully illustrated books centered on the outdoors and natural spaces, designed to help young readers connect with nature through art and story.</p>
+                <p><strong>Current Projects:</strong></p>
+                <ul>
+                    <li>A picture book celebrating life in Virginia state parks—where adventures begin at every trail</li>
+                    <li><em>Gulliver's Adventures</em> series—featuring anthropomorphic pets who embark on whimsical journeys and converse with wild animals. These stories are for slightly older elementary readers with more text and cozy adventures.</li>
+                </ul>
+            </div>
+
+            <div class="book-item">
+                <h3>Young Adult Fantasy</h3>
+                <p>I'm currently crafting a young adult fantasy novel that weaves together magic, nature, and coming-of-age themes. This story invites readers into a world where the natural and fantastical intertwine.</p>
+            </div>
+
+            <p class="closing-note">Stay tuned for updates on upcoming releases and illustrations!</p>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 Jessica Koury Marshall. All rights reserved.</p>
+    </footer>
+
+    <script>
+        function toggleMenu() {
+            const menu = document.getElementById('nav-menu');
+            menu.classList.toggle('active');
+        }
+
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.addEventListener('click', () => {
+                document.getElementById('nav-menu').classList.remove('active');
+            });
+        });
+    </script>
+</body>
+</html><meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Books | Jessica Koury Marshall</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #f5e6d3 0%, #e8d5c4 100%);
+            color: #4a4a4a;
+            line-height: 1.6;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                radial-gradient(circle at 20% 30%, rgba(255, 255, 255, 0.3) 0%, transparent 50%),
+                radial-gradient(circle at 80% 70%, rgba(245, 230, 211, 0.4) 0%, transparent 50%),
+                radial-gradient(circle at 40% 80%, rgba(232, 213, 196, 0.3) 0%, transparent 50%);
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        nav {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 1rem 2rem;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            backdrop-filter: blur(10px);
+        }
+
+        nav .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        nav .logo {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #6b8e7f;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        nav .logo:hover {
+            color: #4a6b5e;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: 2rem;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: #4a4a4a;
+            font-weight: 500;
+            transition: color 0.3s ease;
+            position: relative;
+        }
+
+        nav a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: #a8c5b8;
+            transition: width 0.3s ease;
+        }
+
+        nav a:hover::after,
+        nav a.active::after {
+            width: 100%;
+        }
+
+        nav a:hover,
+        nav a.active {
+            color: #6b8e7f;
+        }
+
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+            gap: 4px;
+        }
+
+        .hamburger span {
+            width: 25px;
+            height: 3px;
+            background: #4a4a4a;
+            transition: all 0.3s ease;
+        }
+
+        main {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+            min-height: calc(100vh - 200px);
+        }
+
+        .page-section {
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 20px;
+            padding: 3rem;
+            margin: 3rem 0;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+            animation: fadeIn 1s ease-in;
+        }
+
+        .page-section h1 {
+            color: #4a6b5e;
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+
+        .page-intro {
+            text-align: center;
+            color: #5a5a5a;
+            margin-bottom: 3rem;
+            font-size: 1.1rem;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .book-item {
+            background: rgba(168, 197, 184, 0.1);
+            padding: 2rem;
+            border-radius: 15px;
+            margin-bottom: 2rem;
+            border-left: 4px solid #6b8e7f;
+        }
+
+        .book-item h3 {
+            color: #4a6b5e;
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+        }
+
+        .book-item p {
+            color: #5a5a5a;
+            line-height: 1.8;
+            margin-bottom: 0.5rem;
+        }
+
+        .book-item strong {
+            color: #4a6b5e;
+        }
+
+        .book-item ul {
+            margin-left: 2rem;
+            margin-top: 0.5rem;
+        }
+
+        .book-item li {
+            margin-bottom: 0.5rem;
+            color: #5a5a5a;
+        }
+
+        .closing-note {
+            text-align: center;
+            color: #6b8e7f;
+            margin-top: 2rem;
+            font-style: italic;
+            font-size: 1.1rem;
+        }
+
+        footer {
+            background: rgba(255, 255, 255, 0.9);
+            padding: 2rem;
+            text-align: center;
+            margin-top: 4rem;
+            color: #6a6a6a;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        @media (max-width: 768px) {
+            nav ul {
+                position: fixed;
+                left: -100%;
+                top: 70px;
+                flex-direction: column;
+                background: rgba(255, 255, 255, 0.98);
+                width: 100%;
+                text-align: center;
+                transition: 0.3s;
+                box-shadow: 0 10px 27px rgba(0, 0, 0, 0.1);
+                padding: 2rem 0;
+            }
+
+            nav ul.active {
+                left: 0;
+            }
+
+            .hamburger {
+                display: flex;
+            }
+
+            .page-section {
+                padding: 2rem 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
