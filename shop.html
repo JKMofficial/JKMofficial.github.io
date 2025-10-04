@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shop | Jessica Koury Marshall</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #f5e6d3 0%, #e8d5c4 100%);
+            color: #4a4a4a;
+            line-height: 1.6;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                radial-gradient(circle at 20% 30%, rgba(255, 255, 255, 0.3) 0%, transparent 50%),
+                radial-gradient(circle at 80% 70%, rgba(245, 230, 211, 0.4) 0%, transparent 50%),
+                radial-gradient(circle at 40% 80%, rgba(232, 213, 196, 0.3) 0%, transparent 50%);
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        nav {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 1rem 2rem;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            backdrop-filter: blur(10px);
+        }
+
+        nav .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        nav .logo {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #6b8e7f;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        nav .logo:hover {
+            color: #4a6b5e;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: 2rem;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: #4a4a4a;
+            font-weight: 500;
+            transition: color 0.3s ease;
+            position: relative;
+        }
+
+        nav a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: #a8c5b8;
+            transition: width 0.3s ease;
+        }
+
+        nav a:hover::after,
+        nav a.active::after {
+            width: 100%;
+        }
+
+        nav a:hover,
+        nav a.active {
+            color: #6b8e7f;
+        }
+
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+            gap: 4px;
+        }
+
+        .hamburger span {
+            width: 25px;
+            height: 3px;
+            background: #4a4a4a;
+            transition: all 0.3s ease;
+        }
+
+        main {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+            min-height: calc(100vh - 200px);
+        }
+
+        .placeholder-section {
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 20px;
+            padding: 4rem 3rem;
+            margin: 3rem 0;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            animation: fadeIn 1s ease-in;
+        }
+
+        .placeholder-section h1 {
+            color: #4a6b5e;
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .placeholder-section p {
+            color: #6a6a6a;
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+        }
+
+        .shop-items {
+            max-width: 600px;
+            margin: 2rem auto;
+            text-align: left;
+        }
+
+        .shop-items h3 {
+            color: #4a6b5e;
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+
+        .shop-items ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .shop-items li {
+            padding: 0.5rem 0;
+            color: #5a5a5a;
+            position: relative;
+            padding-left: 1.5rem;
+        }
+
+        .shop-items li::before {
+            content: '✦';
+            position: absolute;
+            left: 0;
+            color: #a8c5b8;
+        }
+
+        .email-notify {
+            max-width: 500px;
+            margin: 2rem auto 0;
+        }
+
+        .email-notify p {
+            font-size: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .email-notify input {
+            width: 100%;
+            padding: 1rem;
+            border: 2px solid #a8c5b8;
+            border-radius: 25px;
+            font-size: 1rem;
+            margin-bottom: 1rem;
+            transition: border-color 0.3s ease;
+        }
+
+        .email-notify input:focus {
+            outline: none;
+            border-color: #6b8e7f;
+        }
+
+        .email-notify button {
+            background: #6b8e7f;
+            color: white;
+            border: none;
+            padding: 1rem 2.5rem;
+            border-radius: 25px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .email-notify button:hover {
+            background: #4a6b5e;
+            transform: translateY(-2px);
+        }
+
+        #notify-message {
+            margin-top: 1rem;
+            color: #6b8e7f;
+            display: none;
+        }
+
+        footer {
+            background: rgba(255, 255, 255, 0.9);
+            padding: 2rem;
+            text-align: center;
+            margin-top: 4rem;
+            color: #6a6a6a;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        @media (max-width: 768px) {
+            nav ul {
+                position: fixed;
+                left: -100%;
+                top: 70px;
+                flex-direction: column;
+                background: rgba(255, 255, 255, 0.98);
+                width: 100%;
+                text-align: center;
+                transition: 0.3s;
+                box-shadow: 0 10px 27px rgba(0, 0, 0, 0.1);
+                padding: 2rem 0;
+            }
+
+            nav ul.active {
+                left: 0;
+            }
+
+            .hamburger {
+                display: flex;
+            }
+
+            .placeholder-section {
+                padding: 2rem 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="container">
+            <a href="index.html" class="logo">Jessica Koury Marshall</a>
+            <div class="hamburger" onclick="toggleMenu()">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+            <ul id="nav-menu">
+                <li><a href="index.html" class="nav-link">Home</a></li>
+                <li><a href="about.html" class="nav-link">About</a></li>
+                <li><a href="gallery.html" class="nav-link">Gallery</a></li>
+                <li><a href="books.html" class="nav-link">Books</a></li>
+                <li><a href="blog.html" class="nav-link">Blog</a></li>
+                <li><a href="shop.html" class="nav-link active">Shop</a></li>
+                <li><a href="contact.html" class="nav-link">Contact</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main>
+        <section class="placeholder-section">
+            <h1>Shop</h1>
+            <p>My shop is launching soon!</p>
+            
+            <div class="shop-items">
+                <h3>Coming Soon:</h3>
+                <ul>
+                    <li>Nature photography prints</li>
+                    <li>Art prints of watercolors and acrylics</li>
+                    <li>Original artwork</li>
+                    <li>Greeting cards</li>
+                    <li>Canvas bags with art prints</li>
+                    <li>T-shirts and apparel</li>
+                    <li>Books and illustrated stories</li>
+                </ul>
+            </div>
+
+            <div class="email-notify">
+                <p>Be the first to know when the shop opens:</p>
+                <input type="email" id="shop-email" placeholder="Enter your email address" required>
+                <button onclick="notifyMe()">Notify Me</button>
+                <p id="notify-message"></p>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 Jessica Koury Marshall. All rights reserved.</p>
+    </footer>
+
+    <script>
+        function toggleMenu() {
+            const menu = document.getElementById('nav-menu');
+            menu.classList.toggle('active');
+        }
+
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.addEventListener('click', () => {
+                document.getElementById('nav-menu').classList.remove('active');
+            });
+        });
+
+        function notifyMe() {
+            const email = document.getElementById('shop-email').value;
+            const message = document.getElementById('notify-message');
+            
+            if (email && email.includes('@')) {
+                message.textContent = 'Thank you! You\'ll be notified when the shop launches.';
+                message.style.color = '#6b8e7f';
+                message.style.display = 'block';
+                document.getElementById('shop-email').value = '';
+            } else {
+                message.textContent = 'Please enter a valid email address.';
+                message.style.color = '#d9534f';
+                message.style.display = 'block';
+            }
+        }
+
+        document.getElementById('shop-email').addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                notifyMe();
+            }
+        });
+    </script>
+</body>
+</html>
