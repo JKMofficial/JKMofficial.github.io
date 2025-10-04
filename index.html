@@ -1,0 +1,668 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jessica Koury Marshall | Artist & Writer</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #f5e6d3 0%, #e8d5c4 100%);
+            color: #4a4a4a;
+            line-height: 1.6;
+        }
+
+        /* Watercolor texture overlay */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                radial-gradient(circle at 20% 30%, rgba(255, 255, 255, 0.3) 0%, transparent 50%),
+                radial-gradient(circle at 80% 70%, rgba(245, 230, 211, 0.4) 0%, transparent 50%),
+                radial-gradient(circle at 40% 80%, rgba(232, 213, 196, 0.3) 0%, transparent 50%);
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        /* Navigation */
+        nav {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 1rem 2rem;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            backdrop-filter: blur(10px);
+        }
+
+        nav .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        nav .logo {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #6b8e7f;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        nav .logo:hover {
+            color: #4a6b5e;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: 2rem;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: #4a4a4a;
+            font-weight: 500;
+            transition: color 0.3s ease;
+            position: relative;
+        }
+
+        nav a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: #a8c5b8;
+            transition: width 0.3s ease;
+        }
+
+        nav a:hover::after,
+        nav a.active::after {
+            width: 100%;
+        }
+
+        nav a:hover,
+        nav a.active {
+            color: #6b8e7f;
+        }
+
+        /* Hamburger menu for mobile */
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+            gap: 4px;
+        }
+
+        .hamburger span {
+            width: 25px;
+            height: 3px;
+            background: #4a4a4a;
+            transition: all 0.3s ease;
+        }
+
+        /* Main content */
+        main {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+            min-height: calc(100vh - 200px);
+        }
+
+        /* Hero section */
+        .hero {
+            text-align: center;
+            padding: 4rem 2rem;
+            animation: fadeIn 1s ease-in;
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            color: #4a6b5e;
+            margin-bottom: 1rem;
+            animation: slideDown 0.8s ease-out;
+        }
+
+        .hero .tagline {
+            font-size: 1.3rem;
+            color: #6b8e7f;
+            margin-bottom: 0.5rem;
+            font-style: italic;
+        }
+
+        .hero .subtitle {
+            font-size: 1.1rem;
+            color: #8a9a8f;
+            margin-bottom: 2rem;
+        }
+
+        .hero p {
+            font-size: 1.1rem;
+            max-width: 800px;
+            margin: 0 auto 2rem;
+            color: #5a5a5a;
+            line-height: 1.8;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-bottom: 3rem;
+        }
+
+        .btn {
+            padding: 0.8rem 2rem;
+            text-decoration: none;
+            border-radius: 25px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            display: inline-block;
+        }
+
+        .btn-primary {
+            background: #6b8e7f;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #4a6b5e;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(107, 142, 127, 0.3);
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.9);
+            color: #6b8e7f;
+            border: 2px solid #6b8e7f;
+        }
+
+        .btn-secondary:hover {
+            background: #6b8e7f;
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        /* Featured artwork section */
+        .featured-section {
+            margin: 4rem 0;
+        }
+
+        .featured-section h2 {
+            text-align: center;
+            color: #4a6b5e;
+            font-size: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .featured-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .featured-item {
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            animation: fadeInUp 0.6s ease-out;
+            animation-fill-mode: both;
+        }
+
+        .featured-item:nth-child(1) { animation-delay: 0.1s; }
+        .featured-item:nth-child(2) { animation-delay: 0.2s; }
+        .featured-item:nth-child(3) { animation-delay: 0.3s; }
+
+        .featured-item:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .featured-item img {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+            display: block;
+            user-select: none;
+            -webkit-user-drag: none;
+            pointer-events: none;
+        }
+
+        .featured-item .item-info {
+            padding: 1.5rem;
+            text-align: center;
+        }
+
+        .featured-item h3 {
+            color: #4a6b5e;
+            margin-bottom: 0.5rem;
+        }
+
+        .featured-item p {
+            color: #6a6a6a;
+            font-size: 0.95rem;
+        }
+
+        /* Protected image overlay */
+        .protected-image {
+            position: relative;
+        }
+
+        .protected-image::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: transparent;
+            z-index: 1;
+        }
+
+        /* Page sections for other pages */
+        .page-section {
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 20px;
+            padding: 3rem;
+            margin: 3rem 0;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+            animation: fadeIn 1s ease-in;
+        }
+
+        .page-section h1 {
+            color: #4a6b5e;
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+
+        .page-section h2 {
+            color: #4a6b5e;
+            font-size: 2rem;
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .page-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .page-content p {
+            margin-bottom: 1.5rem;
+            font-size: 1.1rem;
+            color: #5a5a5a;
+        }
+
+        /* Gallery grid */
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin: 3rem 0;
+        }
+
+        .gallery-item {
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            animation: fadeInUp 0.6s ease-out;
+            animation-fill-mode: both;
+        }
+
+        .gallery-item:nth-child(1) { animation-delay: 0.1s; }
+        .gallery-item:nth-child(2) { animation-delay: 0.2s; }
+        .gallery-item:nth-child(3) { animation-delay: 0.3s; }
+        .gallery-item:nth-child(4) { animation-delay: 0.4s; }
+        .gallery-item:nth-child(5) { animation-delay: 0.5s; }
+        .gallery-item:nth-child(6) { animation-delay: 0.6s; }
+        .gallery-item:nth-child(7) { animation-delay: 0.7s; }
+        .gallery-item:nth-child(8) { animation-delay: 0.8s; }
+
+        .gallery-item:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+            display: block;
+            user-select: none;
+            -webkit-user-drag: none;
+            pointer-events: none;
+        }
+
+        .gallery-item .item-info {
+            padding: 1.5rem;
+        }
+
+        .gallery-item h3 {
+            color: #4a6b5e;
+            margin-bottom: 0.5rem;
+        }
+
+        .gallery-item p {
+            color: #6a6a6a;
+            font-size: 0.95rem;
+        }
+
+        /* Book item styling */
+        .book-item {
+            background: rgba(168, 197, 184, 0.1);
+            padding: 2rem;
+            border-radius: 15px;
+            margin-bottom: 2rem;
+            border-left: 4px solid #6b8e7f;
+        }
+
+        .book-item h3 {
+            color: #4a6b5e;
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+        }
+
+        .book-item p {
+            color: #5a5a5a;
+            line-height: 1.8;
+            margin-bottom: 0.5rem;
+        }
+
+        .book-item ul {
+            margin-left: 2rem;
+            margin-top: 0.5rem;
+        }
+
+        .book-item li {
+            margin-bottom: 0.5rem;
+            color: #5a5a5a;
+        }
+
+        /* Placeholder sections */
+        .placeholder-content {
+            text-align: center;
+            padding: 2rem;
+        }
+
+        .placeholder-content p {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+        }
+
+        .email-notify {
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        .email-notify input {
+            width: 100%;
+            padding: 1rem;
+            border: 2px solid #a8c5b8;
+            border-radius: 25px;
+            font-size: 1rem;
+            margin-bottom: 1rem;
+            transition: border-color 0.3s ease;
+        }
+
+        .email-notify input:focus {
+            outline: none;
+            border-color: #6b8e7f;
+        }
+
+        .email-notify button {
+            background: #6b8e7f;
+            color: white;
+            border: none;
+            padding: 1rem 2.5rem;
+            border-radius: 25px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .email-notify button:hover {
+            background: #4a6b5e;
+            transform: translateY(-2px);
+        }
+
+        /* Contact styling */
+        .contact-content {
+            text-align: center;
+        }
+
+        .contact-content p {
+            font-size: 1.1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .contact-content a {
+            color: #6b8e7f;
+            text-decoration: none;
+            font-size: 1.2rem;
+            font-weight: 600;
+            transition: color 0.3s ease;
+        }
+
+        .contact-content a:hover {
+            color: #4a6b5e;
+        }
+
+        /* Footer */
+        footer {
+            background: rgba(255, 255, 255, 0.9);
+            padding: 2rem;
+            text-align: center;
+            margin-top: 4rem;
+            color: #6a6a6a;
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Mobile responsiveness */
+        @media (max-width: 768px) {
+            nav ul {
+                position: fixed;
+                left: -100%;
+                top: 70px;
+                flex-direction: column;
+                background: rgba(255, 255, 255, 0.98);
+                width: 100%;
+                text-align: center;
+                transition: 0.3s;
+                box-shadow: 0 10px 27px rgba(0, 0, 0, 0.1);
+                padding: 2rem 0;
+            }
+
+            nav ul.active {
+                left: 0;
+            }
+
+            .hamburger {
+                display: flex;
+            }
+
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .hero .tagline {
+                font-size: 1.1rem;
+            }
+
+            .page-section {
+                padding: 2rem 1.5rem;
+            }
+
+            .gallery-grid,
+            .featured-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="container">
+            <a href="index.html" class="logo">Jessica Koury Marshall</a>
+            <div class="hamburger" onclick="toggleMenu()">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+            <ul id="nav-menu">
+                <li><a href="index.html" class="nav-link">Home</a></li>
+                <li><a href="about.html" class="nav-link">About</a></li>
+                <li><a href="gallery.html" class="nav-link">Gallery</a></li>
+                <li><a href="books.html" class="nav-link">Books</a></li>
+                <li><a href="blog.html" class="nav-link">Blog</a></li>
+                <li><a href="shop.html" class="nav-link">Shop</a></li>
+                <li><a href="contact.html" class="nav-link">Contact</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main>
+        <!-- Hero Section -->
+        <section class="hero">
+            <h1>Jessica Koury Marshall</h1>
+            <p class="tagline">Artist & Writer | Inspired by Nature's Everyday Magic</p>
+            <p class="subtitle">Weaving Whimsy, Wonder, and the Natural World</p>
+            <p>Welcome to my creative space! I'm an artist and writer dedicated to capturing the beauty of nature through watercolor paintings, photography, and storytelling. From whimsical woodland creatures to cozy adventures, my work invites you to pause, observe, and find magic in the everyday wonders around us.</p>
+            <div class="cta-buttons">
+                <a href="gallery.html" class="btn btn-primary">View My Art</a>
+                <a href="books.html" class="btn btn-secondary">Explore My Books</a>
+            </div>
+        </section>
+
+        <!-- Featured Artwork -->
+        <section class="featured-section">
+            <h2>Featured Work</h2>
+            <div class="featured-grid">
+                <div class="featured-item">
+                    <div class="protected-image">
+                        <img src="https://via.placeholder.com/400x300/a8c5b8/ffffff?text=Featured+Art+1" alt="Featured Art 1" oncontextmenu="return false;">
+                    </div>
+                    <div class="item-info">
+                        <h3>Woodland Wonder</h3>
+                        <p>Watercolor</p>
+                    </div>
+                </div>
+                <div class="featured-item">
+                    <div class="protected-image">
+                        <img src="https://via.placeholder.com/400x300/b8d4c8/ffffff?text=Featured+Art+2" alt="Featured Art 2" oncontextmenu="return false;">
+                    </div>
+                    <div class="item-info">
+                        <h3>Forest Dreams</h3>
+                        <p>Nature Photography</p>
+                    </div>
+                </div>
+                <div class="featured-item">
+                    <div class="protected-image">
+                        <img src="https://via.placeholder.com/400x300/c8e4d8/ffffff?text=Featured+Art+3" alt="Featured Art 3" oncontextmenu="return false;">
+                    </div>
+                    <div class="item-info">
+                        <h3>Whimsical Creatures</h3>
+                        <p>Acrylic Painting</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 Jessica Koury Marshall. All rights reserved.</p>
+    </footer>
+
+    <script>
+        // Mobile menu toggle
+        function toggleMenu() {
+            const menu = document.getElementById('nav-menu');
+            menu.classList.toggle('active');
+        }
+
+        // Close mobile menu when clicking a link
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.addEventListener('click', () => {
+                document.getElementById('nav-menu').classList.remove('active');
+            });
+        });
+
+        // Highlight active page in navigation
+        const currentPage = window.location.pathname.split('/').pop() || 'index.html';
+        document.querySelectorAll('.nav-link').forEach(link => {
+            if (link.getAttribute('href') === currentPage) {
+                link.classList.add('active');
+            }
+        });
+
+        // Disable right-click on images
+        document.addEventListener('contextmenu', (e) => {
+            if (e.target.tagName === 'IMG') {
+                e.preventDefault();
+                return false;
+            }
+        });
+
+        // Disable dragging images
+        document.querySelectorAll('img').forEach(img => {
+            img.addEventListener('dragstart', (e) => {
+                e.preventDefault();
+                return false;
+            });
+        });
+    </script>
+</body>
+</html>
