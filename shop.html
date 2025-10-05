@@ -119,7 +119,7 @@
             min-height: calc(100vh - 200px);
         }
 
-        .placeholder-section {
+        .shop-section {
             background: rgba(255, 255, 255, 0.8);
             border-radius: 20px;
             padding: 4rem 3rem;
@@ -129,16 +129,20 @@
             animation: fadeIn 1s ease-in;
         }
 
-        .placeholder-section h1 {
+        .shop-section h1 {
             color: #4a6b5e;
             font-size: 2.5rem;
             margin-bottom: 1rem;
         }
 
-        .placeholder-section p {
+        .shop-section p {
             color: #6a6a6a;
             font-size: 1.2rem;
             margin-bottom: 2rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            line-height: 1.8;
         }
 
         .shop-items {
@@ -151,6 +155,7 @@
             color: #4a6b5e;
             margin-bottom: 1rem;
             text-align: center;
+            font-size: 1.5rem;
         }
 
         .shop-items ul {
@@ -172,52 +177,24 @@
             color: #a8c5b8;
         }
 
-        .email-notify {
-            max-width: 500px;
-            margin: 2rem auto 0;
-        }
-
-        .email-notify p {
-            font-size: 1rem;
-            margin-bottom: 1rem;
-        }
-
-        .email-notify input {
-            width: 100%;
-            padding: 1rem;
-            border: 2px solid #a8c5b8;
-            border-radius: 25px;
-            font-size: 1rem;
-            margin-bottom: 1rem;
-            transition: border-color 0.3s ease;
-        }
-
-        .email-notify input:focus {
-            outline: none;
-            border-color: #6b8e7f;
-        }
-
-        .email-notify button {
+        .shop-button {
+            display: inline-block;
+            margin-top: 2rem;
+            padding: 1.2rem 3rem;
             background: #6b8e7f;
             color: white;
-            border: none;
-            padding: 1rem 2.5rem;
+            text-decoration: none;
             border-radius: 25px;
-            font-size: 1rem;
+            font-size: 1.2rem;
             font-weight: 600;
-            cursor: pointer;
             transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(107, 142, 127, 0.2);
         }
 
-        .email-notify button:hover {
+        .shop-button:hover {
             background: #4a6b5e;
-            transform: translateY(-2px);
-        }
-
-        #notify-message {
-            margin-top: 1rem;
-            color: #6b8e7f;
-            display: none;
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(107, 142, 127, 0.3);
         }
 
         footer {
@@ -259,7 +236,7 @@
                 display: flex;
             }
 
-            .placeholder-section {
+            .shop-section {
                 padding: 2rem 1.5rem;
             }
         }
@@ -287,29 +264,27 @@
     </nav>
 
     <main>
-        <section class="placeholder-section">
+        <section class="shop-section">
             <h1>Shop</h1>
-            <p>My shop is launching soon!</p>
+            <p>Browse my collection of art prints, apparel, stickers, and more featuring my whimsical nature-inspired designs!</p>
             
             <div class="shop-items">
-                <h3>Coming Soon:</h3>
+                <h3>Available Now:</h3>
                 <ul>
-                    <li>Nature photography prints</li>
-                    <li>Art prints of watercolors and acrylics</li>
-                    <li>Original artwork</li>
-                    <li>Greeting cards</li>
-                    <li>Canvas bags with art prints</li>
+                    <li>Art prints and posters</li>
                     <li>T-shirts and apparel</li>
-                    <li>Books and illustrated stories</li>
+                    <li>Stickers</li>
+                    <li>Canvas tote bags</li>
+                    <li>Home decor</li>
+                    <li>And more!</li>
                 </ul>
             </div>
 
-            <div class="email-notify">
-                <p>Be the first to know when the shop opens:</p>
-                <input type="email" id="shop-email" placeholder="Enter your email address" required>
-                <button onclick="notifyMe()">Notify Me</button>
-                <p id="notify-message"></p>
-            </div>
+            <a href="https://jessicakourymarshall-shop.fourthwall.com" target="_blank" class="shop-button">Visit My Shop</a>
+            
+            <p style="margin-top: 2rem; font-size: 1rem; color: #8a9a8f; font-style: italic;">
+                Each purchase supports my art and future book projects. Thank you for your support! ✨
+            </p>
         </section>
     </main>
 
@@ -327,28 +302,6 @@
             link.addEventListener('click', () => {
                 document.getElementById('nav-menu').classList.remove('active');
             });
-        });
-
-        function notifyMe() {
-            const email = document.getElementById('shop-email').value;
-            const message = document.getElementById('notify-message');
-            
-            if (email && email.includes('@')) {
-                message.textContent = 'Thank you! You\'ll be notified when the shop launches.';
-                message.style.color = '#6b8e7f';
-                message.style.display = 'block';
-                document.getElementById('shop-email').value = '';
-            } else {
-                message.textContent = 'Please enter a valid email address.';
-                message.style.color = '#d9534f';
-                message.style.display = 'block';
-            }
-        }
-
-        document.getElementById('shop-email').addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') {
-                notifyMe();
-            }
         });
     </script>
 </body>
