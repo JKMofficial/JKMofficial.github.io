@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cat Memory Match Game</title>
+    <style>
+        body {
+            box-sizing: border-box;
+            font-family: 'Comic Sans MS', cursive, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            margin: 0;
+            padding: 20px;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .game-header {
+            text-align: center;
+            margin-bottom: 30px;
+            color: white;
+        }
+
+        .game-title {
+            font-size: 2.5rem;
+            margin: 0 0 10px 0;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .game-stats {
+            display: flex;
+            gap: 30px;
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+        }
+
+        .stat {
+            background: rgba(255,255,255,0.2);
+            padding: 10px 20px;
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+        }
+
+        .game-board {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+            max-width: 600px;
+            margin-bottom: 30px;
+        }
+
+        .card {
+            width: 120px;
+            height: 120px;
+            background: white;
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            position: relative;
+            transform-style: preserve-3d;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 16px rgba(0,0,0,0.3);
+        }
+
+        .card.flipped {
+            transform: rotateY(180deg);
+        }
+
+        .card.matched {
+            background: #4ade80;
+            transform: scale(0.95);
+            opacity: 0.8;
+        }
+
+        .card-front, .card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 15px;
+        }
+
+        .card-back {
+            background: linear-gradient(45deg, #ff6b6b, #feca57);
+            transform: rotateY(180deg);
+        }
+
+        .card-front {
+            background: #f8f9fa;
+            font-size: 3rem;
+        }
+
+        .cat-icon {
+            font-size: 4rem;
+            filter: drop-shadow(2px 2px 4px rgba(0,0,0,0.2));
+        }
+
+        .paw-pattern {
+            font-size: 2rem;
+            color: rgba(255,255,255,0.7);
+        }
+
+        .reset-btn {
+            background: #ff6b6b;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 25px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+
+        .reset-btn:hover {
+            background: #ff5252;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.3);
+        }
+
+        .win-message {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            z-index: 1000;
+            display: none;
+        }
+
+        .win-message.show {
+            display: block;
+            animation: bounceIn 0.6s ease;
+        }
+
+        @keyframes bounceIn {
+            0% { transform: translate(-50%, -50%) scale(0.3); }
+            50% { transform: translate(-50%, -50%) scale(1.1); }
+            100% { transform: translate(-50%, -50%) scale(1); }
+        }
+
+        @media (max-width: 768px) {
+            .game-board {
+                grid-template-columns: repeat(3, 1fr);
+                gap: 10px;
+            }
+            
+            .card {
+                width: 90px;
+                height: 90px;
+            }
+            
+            .cat-icon {
+                font-size: 3rem;
+            }
+            
+            .game-title {
+                font-size: 2rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .game-board {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .game-stats {
+                flex-direction: column;
+                gap: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="game-header">
+        <h1 class="game-title">🐱 Cat Memory Match 🐱</h1>
+        <div class="game-stats">
+            <div class="stat">Moves: <span id="moves">0</span></div>
+            <div class="stat">Matches: <span id="matches">0</span>/8</div>
+            <div class="stat">Time: <span id="timer">00:00</span></div>
+        </div>
+    </div>
+
+    <div class="game-board" id="gameBoard"></div>
+    
+    <button class="reset-btn" onclick="resetGame()">🔄 New Game</button>
+
+    <div class="win-message" id="winMessage">
+        <h2>🎉 Congratulations! 🎉</h2>
+        <p>You found all the cat pairs!</p>
+        <p>Moves: <span id="finalMoves"></span></p>
+        <p>Time: <span id="finalTime"></span></p>
+        <button class="reset-btn" onclick="resetGame()">Play Again</button>
+    </div>
+
+    <script>
+        // Cat pairs with different colors and poses
+        const catPairs = [
+            '🐱', '🐱', // Gray sitting cat
+            '🐈', '🐈', // Black cat
+            '🐈‍⬛', '🐈‍⬛', // Black cat variant
+            '😸', '😸', // Grinning cat
+            '😹', '😹', // Laughing cat
+            '😻', '😻', // Heart eyes cat
+            '🙀', '🙀', // Surprised cat
+            '😾', '😾'  // Pouting cat
+        ];
+
+        let flippedCards = [];
+        let matchedPairs = 0;
+        let moves = 0;
+        let gameStarted = false;
+        let startTime;
+        let timerInterval;
+
+        function shuffle(array) {
+            const shuffled = [...array];
+            for (let i = shuffled.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+            }
+            return shuffled;
+        }
+
+        function createCard(catEmoji, index) {
+            const card = document.createElement('div');
+            card.className = 'card';
+            card.dataset.cat = catEmoji;
+            card.dataset.index = index;
+            
+            card.innerHTML = `
+                <div class="card-front">
+                    <span class="paw-pattern">🐾</span>
+                </div>
+                <div class="card-back">
+                    <span class="cat-icon">${catEmoji}</span>
+                </div>
+            `;
+            
+            card.addEventListener('click', () => flipCard(card));
+            return card;
+        }
+
+        function flipCard(card) {
+            if (card.classList.contains('flipped') || 
+                card.classList.contains('matched') || 
+                flippedCards.length >= 2) {
+                return;
+            }
+
+            if (!gameStarted) {
+                startGame();
+            }
+
+            card.classList.add('flipped');
+            flippedCards.push(card);
+
+            if (flippedCards.length === 2) {
+                moves++;
+                document.getElementById('moves').textContent = moves;
+                
+                setTimeout(() => {
+                    checkMatch();
+                }, 1000);
+            }
+        }
+
+        function checkMatch() {
+            const [card1, card2] = flippedCards;
+            
+            if (card1.dataset.cat === card2.dataset.cat) {
+                // Match found!
+                card1.classList.add('matched');
+                card2.classList.add('matched');
+                matchedPairs++;
+                
+                document.getElementById('matches').textContent = matchedPairs;
+                
+                if (matchedPairs === 8) {
+                    endGame();
+                }
+            } else {
+                // No match, flip back
+                card1.classList.remove('flipped');
+                card2.classList.remove('flipped');
+            }
+            
+            flippedCards = [];
+        }
+
+        function startGame() {
+            gameStarted = true;
+            startTime = Date.now();
+            timerInterval = setInterval(updateTimer, 1000);
+        }
+
+        function updateTimer() {
+            const elapsed = Math.floor((Date.now() - startTime) / 1000);
+            const minutes = Math.floor(elapsed / 60).toString().padStart(2, '0');
+            const seconds = (elapsed % 60).toString().padStart(2, '0');
+            document.getElementById('timer').textContent = `${minutes}:${seconds}`;
+        }
+
+        function endGame() {
+            clearInterval(timerInterval);
+            document.getElementById('finalMoves').textContent = moves;
+            document.getElementById('finalTime').textContent = document.getElementById('timer').textContent;
+            document.getElementById('winMessage').classList.add('show');
+        }
+
+        function resetGame() {
+            // Reset game state
+            flippedCards = [];
+            matchedPairs = 0;
+            moves = 0;
+            gameStarted = false;
+            clearInterval(timerInterval);
+            
+            // Reset UI
+            document.getElementById('moves').textContent = '0';
+            document.getElementById('matches').textContent = '0';
+            document.getElementById('timer').textContent = '00:00';
+            document.getElementById('winMessage').classList.remove('show');
+            
+            // Create new shuffled board
+            const gameBoard = document.getElementById('gameBoard');
+            gameBoard.innerHTML = '';
+            
+            const shuffledCats = shuffle(catPairs);
+            shuffledCats.forEach((cat, index) => {
+                const card = createCard(cat, index);
+                gameBoard.appendChild(card);
+            });
+        }
+
+        // Initialize game on page load
+        resetGame();
+    </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9899a095a5ae1737',t:'MTc1OTYzMjc5MS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
